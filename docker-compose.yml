@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+  m2webserver:
+    container_name: m2webserver
+    build:
+      context: docker/webserver
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - m2backend
+    networks:
+      magento:
+        aliases:
+          - webserver.magento.docker
+  m2backend:
+    container_name: m2backend
+    build:
+      context: docker/backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - m2database
+    networks:
+      magento:
+        aliases:
+          - backend.magento.docker
+  m2database:
+    container_name: m2database
+    build:
+      context: docker/database
+      dockerfile: Dockerfile
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_USER=magento
+      - MYSQL_PASSWORD=admin123
+      - MYSQL_DATABASE=magento2_shop
+    volumes:
+      - m2mysql:/var/lib/mysql
+    networks:
+      magento:
+        aliases:
+          - database.magento.docker
+
+  m2elasticsearch:
+    container_name: m2elasticsearch
+    image: elasticsearch:8.5.3
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    expose:
+      - "9200"
+    networks:
+      magento:
+        aliases:
+          - elasticsearch.magento.docker
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - cluster.name=es-magento-docker
+      - node.name=node1
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+
+networks:
+  magento:
+    driver: bridge
+volumes:
+  m2mysql:
