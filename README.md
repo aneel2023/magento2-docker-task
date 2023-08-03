@@ -5,10 +5,10 @@ Nginx, PHP8.1, Mysql, elasticsearch and Magento 2.4.5.
 
 # Docker Installation
 
-Clone `magento2-docker-task` directory with command `git clone https://github.com/aneel2023/magento2-docker-task.git`  
+Clone `magento2-docker-task` directory with command `git clone https://github.com/aneel2023/magento2-docker-task.git` 
 and then run `docker-compose up -d` or `docker compose up -d` according to your docker version.
 
-Wait for 30-40 minutes, it will install Magento2.4.5. Once it is finished then add host entry `127.0.0.1 magento2.local`  
+Wait for 30-40 minutes, it will install Magento2.4.5. Once it is finished then add host entry `127.0.0.1 magento2.local` 
 and open URL `http://magento2.local/` in browser.
 
 Access docker image backend ny command `docker exec -it m2backend sh`  
@@ -20,8 +20,6 @@ shut down docker.
 Magento URL: http://magento2.local/admin  
 Admin Username: admin
 Admin Password: admin123
-
-# Run Unit test:
 
 # Magento2 Shopfinder Module
 Shopfinder module will automatically be installed with this docker setup.
@@ -44,3 +42,5 @@ In above command, replace folder path with full file path if want to run test ca
 
 In above command, replace folder path with full file path if want to run test case for single file.
 
+
+``Contact: developer.anil88@gmail.com for any issue.``
